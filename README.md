@@ -4,6 +4,35 @@
 
 ---
 
+## 🌐 Topologia Implementada
+
+A topologia adotada é do tipo **estrela com roteamento interno**, utilizando um **switch de Camada 3 (Cisco Catalyst 3650-24PS)** como elemento central da rede. A estrutura foi segmentada por VLANs, garantindo organização, segurança e controle de tráfego.
+
+### 🧩 Componentes principais
+
+- **Switch central (Layer 3):** Cisco Catalyst 3650-24PS
+- **Hosts distribuídos em VLANs:** TI, ADM, PESQ e DATACENTER
+- **Servidor Web/DNS:** localizado na VLAN 100 com IP fixo
+- **Roteamento entre VLANs:** realizado pelo próprio switch via SVIs
+- **ACLs aplicadas:** para restringir acessos entre setores
+- **DHCP local:** configurado por VLAN com exclusão de IPs reservados
+
+### 🕸️ Estrutura lógica
+
+```
+                +----------------+
+                |  Switch L3     |
+                |  (3650-24PS)   |
+                +--------+-------+
+                         |
+        +----------------+----------------+
+        |        |         |         |     |
+      VLAN10   VLAN20    VLAN30   VLAN100  ...
+       (TI)     (ADM)     (PESQ)  (DATACENTER)
+        |         |         |         |
+     Hosts     Hosts     Hosts     Servidor Web
+```
+
 ## 🧰 Equipamentos Utilizados
 
 - **Switch Cisco 3650-24PS**  
@@ -69,13 +98,13 @@ ITEP_SW01(config)#
 ### 🔒 Senhas para acesso ao modo privilegiado, console e VTY (limitando acessos simultâneos) criptografadas
 ```bash
 ITEP_SW01(config)#service password-encryption
-ITEP_SW01(config)#enable secret It3P,9
+ITEP_SW01(config)#enable secret ████████
 ITEP_SW01(config)#line con 0
-ITEP_SW01(config-line)#password CoN0_eLO$
+ITEP_SW01(config-line)#password ████████
 ITEP_SW01(config-line)#login
 ITEP_SW01(config-line)#exit
 ITEP_SW01(config)#line vty 0 4
-ITEP_SW01(config-line)#password v1R_Ty16!
+ITEP_SW01(config-line)#password ████████
 ITEP_SW01(config-line)#login
 ITEP_SW01(config-line)#^Z
 ITEP_SW01#
